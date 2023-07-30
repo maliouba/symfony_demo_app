@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  www:
+    image: thecodingmachine/php:7.4-v4-apache
+    environment:
+      # Docker image.
+      # ---------------------
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_EXTENSION_PDO_SQLITE: "1"
+      PHP_EXTENSION_REDIS: "1"
+      PHP_EXTENSION_INTL: "1"
+      PHP_EXTENSION_GD: "1"
+      PHP_INI_MEMORY_LIMIT: "1G"
+      PHP_UPLOAD_MAX_FILESIZE: "500M"
+      PHP_POST_MAX_SIZE: "500M"
+      APP_NAME: "Symfony Demo APP"
+      APP_ENV: "dev"
+      APP_DEBUG: "1"
+      APP_SECRET: "${APP_SECRET}"
+      DATABASE_URL: "sqlite:///%kernel.project_dir%/data/database.sqlite"
+    container_name: www
+    ports:
+      - "3000:80"
+    volumes:
+      #- ./docker/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www/html
+    #restart: always
+    networks:
+      - dev
+
+
+networks:
+  dev:
+
+volumes:
+  mysql_data:
